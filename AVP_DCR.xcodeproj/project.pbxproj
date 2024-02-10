@@ -13,6 +13,11 @@
 		9FAF08192B77FB3B00B3EB6E /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAF08182B77FB3B00B3EB6E /* ImmersiveView.swift */; };
 		9FAF081B2B77FB3D00B3EB6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FAF081A2B77FB3D00B3EB6E /* Assets.xcassets */; };
 		9FAF081E2B77FB3D00B3EB6E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FAF081D2B77FB3D00B3EB6E /* Preview Assets.xcassets */; };
+		9FAF08272B78054C00B3EB6E /* CGRPCZlib in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF08262B78054C00B3EB6E /* CGRPCZlib */; };
+		9FAF08292B78054C00B3EB6E /* GRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF08282B78054C00B3EB6E /* GRPC */; };
+		9FAF082B2B78054C00B3EB6E /* GRPCReflectionService in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082A2B78054C00B3EB6E /* GRPCReflectionService */; };
+		9FAF082D2B78054C00B3EB6E /* _GRPCCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082C2B78054C00B3EB6E /* _GRPCCore */; };
+		9FAF082F2B78054C00B3EB6E /* protoc-gen-grpc-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082E2B78054C00B3EB6E /* protoc-gen-grpc-swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +36,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FAF082D2B78054C00B3EB6E /* _GRPCCore in Frameworks */,
 				9FAF08132B77FB3B00B3EB6E /* RealityKitContent in Frameworks */,
+				9FAF082F2B78054C00B3EB6E /* protoc-gen-grpc-swift in Frameworks */,
+				9FAF082B2B78054C00B3EB6E /* GRPCReflectionService in Frameworks */,
+				9FAF08272B78054C00B3EB6E /* CGRPCZlib in Frameworks */,
+				9FAF08292B78054C00B3EB6E /* GRPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +112,11 @@
 			name = AVP_DCR;
 			packageProductDependencies = (
 				9FAF08122B77FB3B00B3EB6E /* RealityKitContent */,
+				9FAF08262B78054C00B3EB6E /* CGRPCZlib */,
+				9FAF08282B78054C00B3EB6E /* GRPC */,
+				9FAF082A2B78054C00B3EB6E /* GRPCReflectionService */,
+				9FAF082C2B78054C00B3EB6E /* _GRPCCore */,
+				9FAF082E2B78054C00B3EB6E /* protoc-gen-grpc-swift */,
 			);
 			productName = AVP_DCR;
 			productReference = 9FAF080D2B77FB3B00B3EB6E /* AVP_DCR.app */;
@@ -131,6 +146,9 @@
 				Base,
 			);
 			mainGroup = 9FAF08042B77FB3B00B3EB6E;
+			packageReferences = (
+				9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */,
+			);
 			productRefGroup = 9FAF080E2B77FB3B00B3EB6E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -360,10 +378,46 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/grpc/grpc-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.21.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9FAF08122B77FB3B00B3EB6E /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		9FAF08262B78054C00B3EB6E /* CGRPCZlib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = CGRPCZlib;
+		};
+		9FAF08282B78054C00B3EB6E /* GRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = GRPC;
+		};
+		9FAF082A2B78054C00B3EB6E /* GRPCReflectionService */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = GRPCReflectionService;
+		};
+		9FAF082C2B78054C00B3EB6E /* _GRPCCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = _GRPCCore;
+		};
+		9FAF082E2B78054C00B3EB6E /* protoc-gen-grpc-swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9FAF08252B78054C00B3EB6E /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = "protoc-gen-grpc-swift";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
