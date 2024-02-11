@@ -35,7 +35,6 @@
 		9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
 		9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
 		9FD50ED92B794B42002D1B82 /* helloworld.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; name = helloworld.proto; path = HelloWorld/helloworld.proto; sourceTree = SOURCE_ROOT; };
-		9FD50EDB2B795299002D1B82 /* AVP_DCR.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AVP_DCR.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +74,6 @@
 		9FAF080F2B77FB3B00B3EB6E /* AVP_DCR */ = {
 			isa = PBXGroup;
 			children = (
-				9FD50EDB2B795299002D1B82 /* AVP_DCR.entitlements */,
 				9FD50ED92B794B42002D1B82 /* helloworld.proto */,
 				9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */,
 				9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */,
