@@ -14,49 +14,46 @@ def Xform "Root"
         bindMaterialAs = "weakerThanDescendants"
     )
 
-    def Sphere "Sphere" (
+    def "donut2" (
         active = true
-        prepend apiSchemas = ["MaterialBindingAPI"]
+        customData = {
+            float3 rotationEulerHint = (4.7123885, 0, 0)
+        }
+        prepend references = @donut2.usdz@
     )
     {
-        reorder nameChildren = ["Collider", "InputTarget", "GridMaterial"]
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
-            bindMaterialAs = "weakerThanDescendants"
-        )
-        double radius = 0.1
-        quatf xformOp:orient = (1, 0, 0, 0)
+        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
         float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-        def RealityKitComponent "Collider"
+        over "Torus_001" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
         {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.2, 0.2, 0.2)
-                float radius = 0.1
-                token shapeType = "Sphere"
-            }
+            rel material:binding = </Root/_materials/Material_003> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
         }
 
-        def RealityKitComponent "InputTarget"
+        over "Icing"
         {
-            uniform token info:id = "RealityKit.InputTarget"
+            over "Torus_002" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/_materials/Material_002> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
         }
     }
 
-    def "GridMaterial" (
+    def "_materials" (
         active = true
-        references = @Materials/GridMaterial.usda@
+        prepend references = @donut2.usdz@</_materials>
     )
     {
-        float3 xformOp:scale = (1, 1, 1)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 
