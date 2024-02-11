@@ -20,7 +20,6 @@
 		9FAF082F2B78054C00B3EB6E /* protoc-gen-grpc-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082E2B78054C00B3EB6E /* protoc-gen-grpc-swift */; };
 		9FD50ED72B794AF0002D1B82 /* helloworld.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */; };
 		9FD50ED82B794AF0002D1B82 /* helloworld.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */; };
-		9FD50EDA2B794B42002D1B82 /* helloworld.proto in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED92B794B42002D1B82 /* helloworld.proto */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +33,6 @@
 		9FAF081F2B77FB3D00B3EB6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
 		9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
-		9FD50ED92B794B42002D1B82 /* helloworld.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; name = helloworld.proto; path = HelloWorld/helloworld.proto; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +72,6 @@
 		9FAF080F2B77FB3B00B3EB6E /* AVP_DCR */ = {
 			isa = PBXGroup;
 			children = (
-				9FD50ED92B794B42002D1B82 /* helloworld.proto */,
 				9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */,
 				9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */,
 				9FAF08142B77FB3B00B3EB6E /* AVP_DCRApp.swift */,
@@ -188,7 +185,6 @@
 				9FAF08152B77FB3B00B3EB6E /* AVP_DCRApp.swift in Sources */,
 				9FD50ED72B794AF0002D1B82 /* helloworld.grpc.swift in Sources */,
 				9FAF08192B77FB3B00B3EB6E /* ImmersiveView.swift in Sources */,
-				9FD50EDA2B794B42002D1B82 /* helloworld.proto in Sources */,
 				9FD50ED82B794AF0002D1B82 /* helloworld.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
