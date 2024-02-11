@@ -18,6 +18,9 @@
 		9FAF082B2B78054C00B3EB6E /* GRPCReflectionService in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082A2B78054C00B3EB6E /* GRPCReflectionService */; };
 		9FAF082D2B78054C00B3EB6E /* _GRPCCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082C2B78054C00B3EB6E /* _GRPCCore */; };
 		9FAF082F2B78054C00B3EB6E /* protoc-gen-grpc-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 9FAF082E2B78054C00B3EB6E /* protoc-gen-grpc-swift */; };
+		9FD50ED72B794AF0002D1B82 /* helloworld.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */; };
+		9FD50ED82B794AF0002D1B82 /* helloworld.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */; };
+		9FD50EDA2B794B42002D1B82 /* helloworld.proto in Sources */ = {isa = PBXBuildFile; fileRef = 9FD50ED92B794B42002D1B82 /* helloworld.proto */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,10 @@
 		9FAF081A2B77FB3D00B3EB6E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FAF081D2B77FB3D00B3EB6E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9FAF081F2B77FB3D00B3EB6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
+		9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
+		9FD50ED92B794B42002D1B82 /* helloworld.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.protobuf; name = helloworld.proto; path = HelloWorld/helloworld.proto; sourceTree = SOURCE_ROOT; };
+		9FD50EDB2B795299002D1B82 /* AVP_DCR.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AVP_DCR.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +75,10 @@
 		9FAF080F2B77FB3B00B3EB6E /* AVP_DCR */ = {
 			isa = PBXGroup;
 			children = (
+				9FD50EDB2B795299002D1B82 /* AVP_DCR.entitlements */,
+				9FD50ED92B794B42002D1B82 /* helloworld.proto */,
+				9FD50ED52B794AF0002D1B82 /* helloworld.grpc.swift */,
+				9FD50ED62B794AF0002D1B82 /* helloworld.pb.swift */,
 				9FAF08142B77FB3B00B3EB6E /* AVP_DCRApp.swift */,
 				9FAF08162B77FB3B00B3EB6E /* ContentView.swift */,
 				9FAF08182B77FB3B00B3EB6E /* ImmersiveView.swift */,
@@ -177,7 +188,10 @@
 			files = (
 				9FAF08172B77FB3B00B3EB6E /* ContentView.swift in Sources */,
 				9FAF08152B77FB3B00B3EB6E /* AVP_DCRApp.swift in Sources */,
+				9FD50ED72B794AF0002D1B82 /* helloworld.grpc.swift in Sources */,
 				9FAF08192B77FB3B00B3EB6E /* ImmersiveView.swift in Sources */,
+				9FD50EDA2B794B42002D1B82 /* helloworld.proto in Sources */,
+				9FD50ED82B794AF0002D1B82 /* helloworld.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +322,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AVP_DCR/AVP_DCR.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AVP_DCR/Preview Content\"";
@@ -334,6 +349,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AVP_DCR/AVP_DCR.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AVP_DCR/Preview Content\"";
