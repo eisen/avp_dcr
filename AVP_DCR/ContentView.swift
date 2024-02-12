@@ -30,7 +30,7 @@ struct ContentView: View {
         VStack {
             RealityView { content in
                 // Add the initial RealityKit content
-                if let scene = try? await Entity(named: "donut4", in: realityKitContentBundle) {
+                if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                     donut = content.entities.first?.findEntity(named: "donut4")
                 }
@@ -55,7 +55,8 @@ struct ContentView: View {
                 {
                     return
                 }
-                donut.transform.rotation = simd_quatf(rotateEvent.rotation)
+                let rotQ = simd_quatf(angle: Float(rotateEvent.rotation.quaternion.angle), axis: SIMD3<Float>(rotateEvent.rotation.quaternion.axis))
+                donut.transform.rotation *= rotQ
             })
 
             VStack (spacing: 12) {

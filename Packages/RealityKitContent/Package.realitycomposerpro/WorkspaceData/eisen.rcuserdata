@@ -1,7 +1,8 @@
 {
   "advancedEditorSelectedIdentifier" : "ProjectBrowser",
   "openSceneRelativePaths" : [
-    "Donut.usda"
+    "Immersive.usda",
+    "Scene.usda"
   ],
   "recentIdentifiers" : {
     "D1722EDD-BA6C-47FF-993B-4ED6B15BC700" : [
@@ -282,5 +283,6 @@
         ]
       }
     ]
-  }
+  },
+  "selectedSceneRelativePath" : "Scene.usda"
 }
