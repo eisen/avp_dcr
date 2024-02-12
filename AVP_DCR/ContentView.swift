@@ -41,9 +41,6 @@ struct ContentView: View {
                     scene.transform.scale = [uniformScale, uniformScale, uniformScale]
                 }
             }
-            .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
-                enlarge.toggle()
-            })
             .gesture( DragGesture().targetedToEntity(donut ?? Entity()).onChanged { dragEvent in
                 guard let donut, let parent = donut.parent
                 else
@@ -58,7 +55,7 @@ struct ContentView: View {
                 {
                     return
                 }
-                donut.transform.rotation = simd_quatf(rotateEvent.rotation) * donut.transform.rotation 
+                donut.transform.rotation = simd_quatf(rotateEvent.rotation)
             })
 
             VStack (spacing: 12) {
