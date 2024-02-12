@@ -189,7 +189,7 @@ public struct Helloworld_HelloWorldAsyncClient: Helloworld_HelloWorldAsyncClient
 
 #endif // compiler(>=5.6)
 
-public protocol Helloworld_HelloWorldClientInterceptorFactoryProtocol: GRPCSendable {
+public protocol Helloworld_HelloWorldClientInterceptorFactoryProtocol: Swift.Sendable {
 
   /// - Returns: Interceptors to use when invoking 'sayHello'.
   func makeSayHelloInterceptors() -> [ClientInterceptor<Helloworld_HelloRequest, Helloworld_HelloResponse>]

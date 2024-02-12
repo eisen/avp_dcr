@@ -19,26 +19,44 @@ struct ContentView: View {
     @State private var enlarge = false
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = false
+    @State private var yaw = Angle2D(degrees: 0)
+    @State private var pitch = Angle2D(degrees: 0.0)
+    @State private var donut: Entity?
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
-
+    
     var body: some View {
         VStack {
             RealityView { content in
                 // Add the initial RealityKit content
-                if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
+                if let scene = try? await Entity(named: "Donut", in: realityKitContentBundle) {
                     content.add(scene)
+                    donut = content.entities.first?.findEntity(named: "donut2")
                 }
             } update: { content in
                 // Update the RealityKit content when SwiftUI state changes
                 if let scene = content.entities.first {
                     let uniformScale: Float = enlarge ? 1.4 : 1.0
                     scene.transform.scale = [uniformScale, uniformScale, uniformScale]
+                    
+//                    scene.transform.rotation = simd_quatf(
+//                        Rotation3D(eulerAngles:
+//                                    EulerAngles(x: pitch, y: yaw, z: Angle2D(degrees: 0.0), order: .xyz)
+//                                  )
+//                    )
                 }
             }
             .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
                 enlarge.toggle()
+            })
+            .gesture( DragGesture().targetedToEntity(donut ?? Entity()).onChanged { dragEvent in
+                guard let donut, let parent = donut.parent
+                else
+                {
+                    return
+                }
+                donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
             })
 
             VStack (spacing: 12) {

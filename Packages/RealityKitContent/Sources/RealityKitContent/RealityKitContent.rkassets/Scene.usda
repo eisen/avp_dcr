@@ -14,46 +14,19 @@ def Xform "Root"
         bindMaterialAs = "weakerThanDescendants"
     )
 
-    def "donut2" (
-        active = true
-        customData = {
-            float3 rotationEulerHint = (4.7123885, 0, 0)
-        }
-        prepend references = @donut2.usdz@
-    )
-    {
-        quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        over "Torus_001" (
-            prepend apiSchemas = ["MaterialBindingAPI"]
-        )
-        {
-            rel material:binding = </Root/_materials/Material_003> (
-                bindMaterialAs = "weakerThanDescendants"
-            )
-        }
-
-        over "Icing"
-        {
-            over "Torus_002" (
-                prepend apiSchemas = ["MaterialBindingAPI"]
-            )
-            {
-                rel material:binding = </Root/_materials/Material_002> (
-                    bindMaterialAs = "weakerThanDescendants"
-                )
-            }
-        }
-    }
-
     def "_materials" (
         active = true
         prepend references = @donut2.usdz@</_materials>
     )
     {
+    }
+
+    def "Donut" (
+        active = true
+        prepend references = @Donut.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
     }
 }
 

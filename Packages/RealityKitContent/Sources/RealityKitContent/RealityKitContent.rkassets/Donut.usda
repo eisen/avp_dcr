@@ -1,0 +1,85 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 1.0 (409.60.6)"
+    }
+    defaultPrim = "Donut"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Donut"
+{
+    quatf xformOp:orient = (1, 0, 0, 0)
+    float3 xformOp:scale = (1, 1, 1)
+    float3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def "donut2" (
+        active = true
+        customData = {
+            float3 rotationEulerHint = (-0.78539807, 0, 0)
+        }
+        prepend references = @donut2.usdz@
+    )
+    {
+        reorder nameChildren = ["_materials", "Torus_001", "Icing"]
+        quatf xformOp:orient = (0.92387956, -0.3826834, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Torus_001" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            rel material:binding = </Donut/donut2/_materials/Material_003> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+        }
+
+        over "Icing"
+        {
+            over "Torus_002" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Donut/donut2/_materials/Material_002> (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+            }
+        }
+
+        def "_materials" (
+            active = true
+            prepend references = @Scene.usda@</Root/_materials>
+        )
+        {
+        }
+
+        def RealityKitComponent "InputTarget"
+        {
+            uniform token info:id = "RealityKit.InputTarget"
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.15483546, 0.1476644, 0.054517385)
+                token shapeType = "Box"
+
+                def RealityKitStruct "pose"
+                {
+                    float3 position = (-0.0017949827, 0.0010502748, 0.0027016904)
+                }
+            }
+        }
+    }
+}
+
