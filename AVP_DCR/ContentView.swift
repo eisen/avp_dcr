@@ -39,12 +39,6 @@ struct ContentView: View {
                 if let scene = content.entities.first {
                     let uniformScale: Float = enlarge ? 1.4 : 1.0
                     scene.transform.scale = [uniformScale, uniformScale, uniformScale]
-                    
-//                    scene.transform.rotation = simd_quatf(
-//                        Rotation3D(eulerAngles:
-//                                    EulerAngles(x: pitch, y: yaw, z: Angle2D(degrees: 0.0), order: .xyz)
-//                                  )
-//                    )
                 }
             }
             .gesture(TapGesture().targetedToAnyEntity().onEnded { _ in
@@ -57,6 +51,14 @@ struct ContentView: View {
                     return
                 }
                 donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
+            })
+            .gesture( RotateGesture3D().targetedToEntity(donut ?? Entity()).onChanged { rotateEvent in
+                guard let donut
+                else
+                {
+                    return
+                }
+                donut.transform.rotation = simd_quatf(rotateEvent.rotation) * donut.transform.rotation 
             })
 
             VStack (spacing: 12) {
