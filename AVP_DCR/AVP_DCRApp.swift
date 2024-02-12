@@ -13,6 +13,7 @@ struct AVP_DCRApp: App {
         WindowGroup {
             ContentView()
         }.windowStyle(.volumetric)
+            .defaultSize(width: 10, height: 10, depth: 10, in: .meters)
 
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
