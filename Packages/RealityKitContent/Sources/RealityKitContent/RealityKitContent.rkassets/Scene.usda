@@ -14,19 +14,14 @@ def Xform "Root"
         bindMaterialAs = "weakerThanDescendants"
     )
 
-    def "_materials" (
+    def "donut4" (
         active = true
-        prepend references = @donut2.usdz@</_materials>
-    )
-    {
-    }
-
-    def "Donut" (
-        active = true
-        prepend references = @Donut.usda@
+        prepend references = @donut4.usdz@
     )
     {
         float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 1, -0.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }
 

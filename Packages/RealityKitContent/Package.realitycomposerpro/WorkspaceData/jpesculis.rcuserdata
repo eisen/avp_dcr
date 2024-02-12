@@ -193,6 +193,28 @@
     ],
     "D66134B1-3681-4A8E-AFE5-29F257229F3B" : [
       {
+        "date" : 729401015.730978,
+        "title" : "Untitled",
+        "transform" : [
+          0.99999994,
+          0,
+          0,
+          0,
+          0,
+          0.8660254,
+          -0.49999988,
+          0,
+          0,
+          0.49999988,
+          0.8660254,
+          0,
+          0.013876934,
+          1.2184832,
+          0.81170034,
+          1
+        ]
+      },
+      {
         "date" : 729378205.371472,
         "title" : "Untitled",
         "transform" : [
@@ -304,5 +326,5 @@
       }
     ]
   },
-  "selectedSceneRelativePath" : "Immersive.usda"
+  "selectedSceneRelativePath" : "Scene.usda"
 }

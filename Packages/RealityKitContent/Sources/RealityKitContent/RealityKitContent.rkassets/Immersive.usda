@@ -10,17 +10,17 @@ reorder rootPrims = ["Root", "GridMaterial"]
 def Xform "Root"
 {
     reorder nameChildren = ["Sphere_Left", "Sphere_Right", "GridMaterial"]
-    def "donut3" (
+    def "donut4" (
         active = true
         customData = {
             float3 rotationEulerHint = (4.7123885, 0, 0)
         }
-        prepend references = @donut3.usdz@
+        prepend references = @donut4.usdz@
     )
     {
         quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
         float3 xformOp:scale = (3, 3, 3)
-        float3 xformOp:translate = (0, 1.2, -1)
+        float3 xformOp:translate = (0, 1.2, -0.4)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
     }
 }

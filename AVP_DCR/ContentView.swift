@@ -30,9 +30,9 @@ struct ContentView: View {
         VStack {
             RealityView { content in
                 // Add the initial RealityKit content
-                if let scene = try? await Entity(named: "Donut", in: realityKitContentBundle) {
+                if let scene = try? await Entity(named: "donut4", in: realityKitContentBundle) {
                     content.add(scene)
-                    donut = content.entities.first?.findEntity(named: "donut2")
+                    donut = content.entities.first?.findEntity(named: "donut4")
                 }
             } update: { content in
                 // Update the RealityKit content when SwiftUI state changes
