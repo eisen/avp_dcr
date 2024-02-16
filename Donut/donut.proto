@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package donut;
+
+message Xfrm {
+    message point {
+        float x = 1;
+        float y = 2;
+        float z = 3;
+    }
+    
+    bool locked = 1;
+    point position = 2;
+}
+
+service DonutWorld{
+    rpc GetPosition(google.protobuf.Empty) returns (stream Xfrm) {}
+    rpc SetPosition(stream Xfrm) returns (google.protobuf.Empty) {}
+}

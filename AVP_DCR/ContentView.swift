@@ -22,6 +22,9 @@ struct ContentView: View {
     @State private var yaw = Angle2D(degrees: 0)
     @State private var pitch = Angle2D(degrees: 0.0)
     @State private var donut: Entity?
+    
+    private var group: EventLoopGroup?
+    private var channel: GRPCChannel?
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -48,6 +51,10 @@ struct ContentView: View {
                     return
                 }
                 donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
+                
+                Task {
+                    try! await SendXfrmUpdate(position: donut.position)
+                }
             })
             .gesture( RotateGesture3D().targetedToEntity(donut ?? Entity()).onChanged { rotateEvent in
                 guard let donut
@@ -77,7 +84,6 @@ struct ContentView: View {
                     switch await openImmersiveSpace(id: "ImmersiveSpace") {
                     case .opened:
                         immersiveSpaceIsShown = true
-                        try await self.run()
                     case .error, .userCancelled:
                         fallthrough
                     @unknown default:
@@ -92,41 +98,35 @@ struct ContentView: View {
         }
     }
     
-    func run() async throws {
+    func SendXfrmUpdate(position: SIMD3<Float>) async throws
+    {
+        let client = Donut_DonutWorldAsyncClient(channel: self.channel!)
+        var rqstStream = Donut_Xfrm()
+        rqstStream.position.x = position.x
+        rqstStream.position.y = position.y
+        rqstStream.position.z = position.z
+        let streamCall = client.makeSetPositionCall()
+        try! await streamCall.requestStream.send(rqstStream)
+        streamCall.requestStream.finish()
+    }
+    
+    mutating func InitGRPC() throws {
         // Setup an `EventLoopGroup` for the connection to run on.
         //
         // See: https://github.com/apple/swift-nio#eventloops-and-eventloopgroups
-        let group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         // Make sure the group is shutdown when we're done with it.
         defer {
-          try! group.syncShutdownGracefully()
+            try! group!.syncShutdownGracefully()
         }
 
         // Configure the channel, we're not using TLS so the connection is `insecure`.
-        let channel = try GRPCChannelPool.with(
+        self.channel = try GRPCChannelPool.with(
           target: .host("20.102.106.161", port: self.port),
           transportSecurity: .plaintext,
-          eventLoopGroup: group
+          eventLoopGroup: group!
         )
-
-        // Close the connection when we're done with it.
-        defer {
-          try! channel.close().wait()
-        }
-
-        // Provide the connection to the generated client.
-        let greeter = Helloworld_HelloWorldAsyncClient(channel: channel)
-
-        // Form the request with the name, if one was provided.
-        let request = Helloworld_HelloRequest()
-
-        do {
-              let greeting = try await greeter.sayHello(request)
-              print("Greeter received: \(greeting.message)")
-            } catch {
-              print("Greeter failed: \(error)")
-            }
       }
 }
 
