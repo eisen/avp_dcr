@@ -12,6 +12,7 @@ import RealityKitContent
 import GRPC
 import NIOCore
 import NIOPosix
+import SwiftProtobuf
 
 struct ContentView: View {
     var port: Int = 50051
@@ -24,6 +25,8 @@ struct ContentView: View {
     @State private var donut: Entity?
     @State private var group: EventLoopGroup?
     @State private var channel: GRPCChannel?
+    @State private var client: Donut_DonutWorldAsyncClient?
+    @State private var streamCall: GRPCAsyncClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty>? = nil
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -31,7 +34,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             RealityView { content in
-                // Add the initial RealityKit content               
+                // Add the initial RealityKit content
                 if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                     donut = content.entities.first?.findEntity(named: "donut4")
@@ -43,18 +46,30 @@ struct ContentView: View {
                     scene.transform.scale = [uniformScale, uniformScale, uniformScale]
                 }
             }
-            .gesture( DragGesture().targetedToEntity(donut ?? Entity()).onChanged { dragEvent in
+            .gesture( DragGesture().targetedToEntity(donut ?? Entity())
+                .onChanged { dragEvent in
                 guard let donut, let parent = donut.parent
                 else
                 {
                     return
                 }
                 donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
+                    
+                var rqstStream = Donut_Xfrm()
+                rqstStream.locked = true
+                rqstStream.position.x = donut.position.x
+                rqstStream.position.y = donut.position.y
+                rqstStream.position.z = donut.position.z
                 
                 Task {
-                    try! await SendXfrmUpdate(position: donut.position)
+                    try! await SendXfrmUpdate(xfrmStream: rqstStream)
                 }
-            })
+            }
+                .onEnded({ _ in
+                    streamCall!.requestStream.finish()
+                    streamCall = nil
+                })
+            )
             .gesture( RotateGesture3D().targetedToEntity(donut ?? Entity()).onChanged { rotateEvent in
                 guard let donut
                 else
@@ -104,6 +119,8 @@ struct ContentView: View {
               transportSecurity: .plaintext,
               eventLoopGroup: group!
             )
+            
+            self.client = Donut_DonutWorldAsyncClient(channel: self.channel!)
         }
         .onDisappear() {
             try! group!.syncShutdownGracefully()
@@ -111,16 +128,12 @@ struct ContentView: View {
         }
     }
     
-    func SendXfrmUpdate(position: SIMD3<Float>) async throws
+    func SendXfrmUpdate(xfrmStream: Donut_Xfrm) async throws
     {
-        let client = Donut_DonutWorldAsyncClient(channel: self.channel!)
-        var rqstStream = Donut_Xfrm()
-        rqstStream.position.x = position.x
-        rqstStream.position.y = position.y
-        rqstStream.position.z = position.z
-        let streamCall = client.makeSetPositionCall()
-        try! await streamCall.requestStream.send(rqstStream)
-        streamCall.requestStream.finish()
+        if(self.streamCall == nil) {
+            self.streamCall = client!.makeSetPositionCall()
+        }
+        try! await streamCall!.requestStream.send(xfrmStream)
     }
 }
 
