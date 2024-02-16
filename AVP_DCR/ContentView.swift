@@ -14,9 +14,26 @@ import NIOCore
 import NIOPosix
 import SwiftProtobuf
 
+protocol Lockable {
+    var isLocked: Bool { get set }
+}
+
+extension Entity: Lockable {
+    static private var _lock: Bool = false
+    var isLocked: Bool {
+        get {
+            return Entity._lock
+        }
+        set(newValue) {
+            Entity._lock = newValue
+        }
+    }
+}
+
 struct ContentView: View {
     var port: Int = 50051
-
+    let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+    
     @State private var enlarge = false
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = false
@@ -27,7 +44,8 @@ struct ContentView: View {
     @State private var channel: GRPCChannel?
     @State private var client: Donut_DonutWorldAsyncClient?
     @State private var streamCall: GRPCAsyncClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty>? = nil
-
+    @State private var rcvdStreamCall: GRPCAsyncClientStreamingCall<Google_Protobuf_Empty, Donut_Xfrm>? = nil
+    
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     
@@ -48,26 +66,42 @@ struct ContentView: View {
             }
             .gesture( DragGesture().targetedToEntity(donut ?? Entity())
                 .onChanged { dragEvent in
-                guard let donut, let parent = donut.parent
-                else
-                {
-                    return
-                }
-                donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
+                    guard let donut, let parent = donut.parent
+                    else
+                    {
+                        return
+                    }
                     
-                var rqstStream = Donut_Xfrm()
-                rqstStream.locked = true
-                rqstStream.position.x = donut.position.x
-                rqstStream.position.y = donut.position.y
-                rqstStream.position.z = donut.position.z
-                
-                Task {
-                    try! await SendXfrmUpdate(xfrmStream: rqstStream)
+                    if donut.isLocked {
+                        return
+                    }
+                    
+                    donut.isLocked = true
+                    donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
+                    
+                    var rqstStream = Donut_Xfrm()
+                    rqstStream.locked = true
+                    rqstStream.uuid = deviceID
+                    rqstStream.position.x = donut.position.x
+                    rqstStream.position.y = donut.position.y
+                    rqstStream.position.z = donut.position.z
+                    
+                    Task {
+                        try! await SendXfrmUpdate(xfrmStream: rqstStream)
+                    }
                 }
-            }
                 .onEnded({ _ in
+                    guard let donut
+                    else
+                    {
+                        return
+                    }
+                    
+                    donut.isLocked = false
+                    
                     var rqstStream = Donut_Xfrm()
                     rqstStream.locked = false
+                    rqstStream.uuid = deviceID
                     rqstStream.position.x = 0
                     rqstStream.position.y = 0
                     rqstStream.position.z = 0
@@ -88,18 +122,18 @@ struct ContentView: View {
                 let rotQ = simd_quatf(angle: Float(rotateEvent.rotation.quaternion.angle), axis: SIMD3<Float>(rotateEvent.rotation.quaternion.axis))
                 donut.transform.rotation *= rotQ
             })
-
+            
             VStack (spacing: 12) {
                 Toggle("Enlarge RealityView Content", isOn: $enlarge)
                     .font(.title)
-
+                
                 Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
                     .font(.title)
             }
             .frame(width: 360)
             .padding(36)
             .glassBackgroundEffect()
-
+            
         }
         .onChange(of: showImmersiveSpace) { _, newValue in
             Task {
@@ -121,15 +155,32 @@ struct ContentView: View {
         }
         .onAppear() {
             self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
+            
             // Configure the channel, we're not using TLS so the connection is `insecure`.
             self.channel = try! GRPCChannelPool.with(
-              target: .host("20.102.106.161", port: self.port),
-              transportSecurity: .plaintext,
-              eventLoopGroup: group!
+                target: .host("20.102.106.161", port: self.port),
+                transportSecurity: .plaintext,
+                eventLoopGroup: group!
             )
             
             self.client = Donut_DonutWorldAsyncClient(channel: self.channel!)
+            
+            Task {
+                try await withThrowingTaskGroup(of: Void.self) { group in
+                    let rcvdStreamCall = client!.makeGetPositionCall(Google_Protobuf_Empty())
+                    
+                    group.addTask {
+                        for try await xfrm in rcvdStreamCall.responseStream {
+                            if xfrm.uuid != self.deviceID {
+                                print("Response: \(xfrm)")
+                                await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
+                            }
+                        }
+                    }
+                    
+                    try await group.waitForAll()
+                }
+            }
         }
         .onDisappear() {
             try! group!.syncShutdownGracefully()

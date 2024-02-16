@@ -13,6 +13,7 @@ message Xfrm {
     
     bool locked = 1;
     point position = 2;
+    string uuid = 3;
 }
 
 service DonutWorld{

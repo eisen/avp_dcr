@@ -36,6 +36,8 @@ public struct Donut_Xfrm {
   /// Clears the value of `position`. Subsequent reads from it will return its default value.
   public mutating func clearPosition() {self._position = nil}
 
+  public var uuid: String = String()
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public struct point {
@@ -73,6 +75,7 @@ extension Donut_Xfrm: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "locked"),
     2: .same(proto: "position"),
+    3: .same(proto: "uuid"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -83,6 +86,7 @@ extension Donut_Xfrm: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularBoolField(value: &self.locked) }()
       case 2: try { try decoder.decodeSingularMessageField(value: &self._position) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       default: break
       }
     }
@@ -99,12 +103,16 @@ extension Donut_Xfrm: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     try { if let v = self._position {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
     } }()
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Donut_Xfrm, rhs: Donut_Xfrm) -> Bool {
     if lhs.locked != rhs.locked {return false}
     if lhs._position != rhs._position {return false}
+    if lhs.uuid != rhs.uuid {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

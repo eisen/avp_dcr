@@ -32,14 +32,14 @@ public protocol Donut_DonutWorldClientProtocol: GRPCClient {
   var interceptors: Donut_DonutWorldClientInterceptorFactoryProtocol? { get }
 
   func getPosition(
-    _ request: Google_Protobuf_Empty,
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
     callOptions: CallOptions?,
     handler: @escaping (Donut_Xfrm) -> Void
-  ) -> ServerStreamingCall<Google_Protobuf_Empty, Donut_Xfrm>
+  ) -> ServerStreamingCall<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm>
 
   func setPosition(
     callOptions: CallOptions?
-  ) -> ClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty>
+  ) -> ClientStreamingCall<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty>
 }
 
 extension Donut_DonutWorldClientProtocol {
@@ -55,10 +55,10 @@ extension Donut_DonutWorldClientProtocol {
   ///   - handler: A closure called when each response is received from the server.
   /// - Returns: A `ServerStreamingCall` with futures for the metadata and status.
   public func getPosition(
-    _ request: Google_Protobuf_Empty,
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
     callOptions: CallOptions? = nil,
     handler: @escaping (Donut_Xfrm) -> Void
-  ) -> ServerStreamingCall<Google_Protobuf_Empty, Donut_Xfrm> {
+  ) -> ServerStreamingCall<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm> {
     return self.makeServerStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.getPosition.path,
       request: request,
@@ -78,7 +78,7 @@ extension Donut_DonutWorldClientProtocol {
   /// - Returns: A `ClientStreamingCall` with futures for the metadata, status and response.
   public func setPosition(
     callOptions: CallOptions? = nil
-  ) -> ClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty> {
+  ) -> ClientStreamingCall<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty> {
     return self.makeClientStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.setPosition.path,
       callOptions: callOptions ?? self.defaultCallOptions,
@@ -153,13 +153,13 @@ public protocol Donut_DonutWorldAsyncClientProtocol: GRPCClient {
   var interceptors: Donut_DonutWorldClientInterceptorFactoryProtocol? { get }
 
   func makeGetPositionCall(
-    _ request: Google_Protobuf_Empty,
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
     callOptions: CallOptions?
-  ) -> GRPCAsyncServerStreamingCall<Google_Protobuf_Empty, Donut_Xfrm>
+  ) -> GRPCAsyncServerStreamingCall<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm>
 
   func makeSetPositionCall(
     callOptions: CallOptions?
-  ) -> GRPCAsyncClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty>
+  ) -> GRPCAsyncClientStreamingCall<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty>
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -173,9 +173,9 @@ extension Donut_DonutWorldAsyncClientProtocol {
   }
 
   public func makeGetPositionCall(
-    _ request: Google_Protobuf_Empty,
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
     callOptions: CallOptions? = nil
-  ) -> GRPCAsyncServerStreamingCall<Google_Protobuf_Empty, Donut_Xfrm> {
+  ) -> GRPCAsyncServerStreamingCall<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm> {
     return self.makeAsyncServerStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.getPosition.path,
       request: request,
@@ -186,7 +186,7 @@ extension Donut_DonutWorldAsyncClientProtocol {
 
   public func makeSetPositionCall(
     callOptions: CallOptions? = nil
-  ) -> GRPCAsyncClientStreamingCall<Donut_Xfrm, Google_Protobuf_Empty> {
+  ) -> GRPCAsyncClientStreamingCall<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty> {
     return self.makeAsyncClientStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.setPosition.path,
       callOptions: callOptions ?? self.defaultCallOptions,
@@ -198,7 +198,7 @@ extension Donut_DonutWorldAsyncClientProtocol {
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
 extension Donut_DonutWorldAsyncClientProtocol {
   public func getPosition(
-    _ request: Google_Protobuf_Empty,
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
     callOptions: CallOptions? = nil
   ) -> GRPCAsyncResponseStream<Donut_Xfrm> {
     return self.performAsyncServerStreamingCall(
@@ -212,7 +212,7 @@ extension Donut_DonutWorldAsyncClientProtocol {
   public func setPosition<RequestStream>(
     _ requests: RequestStream,
     callOptions: CallOptions? = nil
-  ) async throws -> Google_Protobuf_Empty where RequestStream: Sequence, RequestStream.Element == Donut_Xfrm {
+  ) async throws -> SwiftProtobuf.Google_Protobuf_Empty where RequestStream: Sequence, RequestStream.Element == Donut_Xfrm {
     return try await self.performAsyncClientStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.setPosition.path,
       requests: requests,
@@ -224,7 +224,7 @@ extension Donut_DonutWorldAsyncClientProtocol {
   public func setPosition<RequestStream>(
     _ requests: RequestStream,
     callOptions: CallOptions? = nil
-  ) async throws -> Google_Protobuf_Empty where RequestStream: AsyncSequence & Sendable, RequestStream.Element == Donut_Xfrm {
+  ) async throws -> SwiftProtobuf.Google_Protobuf_Empty where RequestStream: AsyncSequence & Sendable, RequestStream.Element == Donut_Xfrm {
     return try await self.performAsyncClientStreamingCall(
       path: Donut_DonutWorldClientMetadata.Methods.setPosition.path,
       requests: requests,
@@ -256,10 +256,10 @@ public struct Donut_DonutWorldAsyncClient: Donut_DonutWorldAsyncClientProtocol {
 public protocol Donut_DonutWorldClientInterceptorFactoryProtocol: Swift.Sendable {
 
   /// - Returns: Interceptors to use when invoking 'getPosition'.
-  func makeGetPositionInterceptors() -> [ClientInterceptor<Google_Protobuf_Empty, Donut_Xfrm>]
+  func makeGetPositionInterceptors() -> [ClientInterceptor<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm>]
 
   /// - Returns: Interceptors to use when invoking 'setPosition'.
-  func makeSetPositionInterceptors() -> [ClientInterceptor<Donut_Xfrm, Google_Protobuf_Empty>]
+  func makeSetPositionInterceptors() -> [ClientInterceptor<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty>]
 }
 
 public enum Donut_DonutWorldClientMetadata {
@@ -291,9 +291,9 @@ public enum Donut_DonutWorldClientMetadata {
 public protocol Donut_DonutWorldProvider: CallHandlerProvider {
   var interceptors: Donut_DonutWorldServerInterceptorFactoryProtocol? { get }
 
-  func getPosition(request: Google_Protobuf_Empty, context: StreamingResponseCallContext<Donut_Xfrm>) -> EventLoopFuture<GRPCStatus>
+  func getPosition(request: SwiftProtobuf.Google_Protobuf_Empty, context: StreamingResponseCallContext<Donut_Xfrm>) -> EventLoopFuture<GRPCStatus>
 
-  func setPosition(context: UnaryResponseCallContext<Google_Protobuf_Empty>) -> EventLoopFuture<(StreamEvent<Donut_Xfrm>) -> Void>
+  func setPosition(context: UnaryResponseCallContext<SwiftProtobuf.Google_Protobuf_Empty>) -> EventLoopFuture<(StreamEvent<Donut_Xfrm>) -> Void>
 }
 
 extension Donut_DonutWorldProvider {
@@ -311,7 +311,7 @@ extension Donut_DonutWorldProvider {
     case "GetPosition":
       return ServerStreamingServerHandler(
         context: context,
-        requestDeserializer: ProtobufDeserializer<Google_Protobuf_Empty>(),
+        requestDeserializer: ProtobufDeserializer<SwiftProtobuf.Google_Protobuf_Empty>(),
         responseSerializer: ProtobufSerializer<Donut_Xfrm>(),
         interceptors: self.interceptors?.makeGetPositionInterceptors() ?? [],
         userFunction: self.getPosition(request:context:)
@@ -321,7 +321,7 @@ extension Donut_DonutWorldProvider {
       return ClientStreamingServerHandler(
         context: context,
         requestDeserializer: ProtobufDeserializer<Donut_Xfrm>(),
-        responseSerializer: ProtobufSerializer<Google_Protobuf_Empty>(),
+        responseSerializer: ProtobufSerializer<SwiftProtobuf.Google_Protobuf_Empty>(),
         interceptors: self.interceptors?.makeSetPositionInterceptors() ?? [],
         observerFactory: self.setPosition(context:)
       )
@@ -341,7 +341,7 @@ public protocol Donut_DonutWorldAsyncProvider: CallHandlerProvider {
   var interceptors: Donut_DonutWorldServerInterceptorFactoryProtocol? { get }
 
   @Sendable func getPosition(
-    request: Google_Protobuf_Empty,
+    request: SwiftProtobuf.Google_Protobuf_Empty,
     responseStream: GRPCAsyncResponseStreamWriter<Donut_Xfrm>,
     context: GRPCAsyncServerCallContext
   ) async throws
@@ -349,7 +349,7 @@ public protocol Donut_DonutWorldAsyncProvider: CallHandlerProvider {
   @Sendable func setPosition(
     requestStream: GRPCAsyncRequestStream<Donut_Xfrm>,
     context: GRPCAsyncServerCallContext
-  ) async throws -> Google_Protobuf_Empty
+  ) async throws -> SwiftProtobuf.Google_Protobuf_Empty
 }
 
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
@@ -374,7 +374,7 @@ extension Donut_DonutWorldAsyncProvider {
     case "GetPosition":
       return GRPCAsyncServerHandler(
         context: context,
-        requestDeserializer: ProtobufDeserializer<Google_Protobuf_Empty>(),
+        requestDeserializer: ProtobufDeserializer<SwiftProtobuf.Google_Protobuf_Empty>(),
         responseSerializer: ProtobufSerializer<Donut_Xfrm>(),
         interceptors: self.interceptors?.makeGetPositionInterceptors() ?? [],
         wrapping: self.getPosition(request:responseStream:context:)
@@ -384,7 +384,7 @@ extension Donut_DonutWorldAsyncProvider {
       return GRPCAsyncServerHandler(
         context: context,
         requestDeserializer: ProtobufDeserializer<Donut_Xfrm>(),
-        responseSerializer: ProtobufSerializer<Google_Protobuf_Empty>(),
+        responseSerializer: ProtobufSerializer<SwiftProtobuf.Google_Protobuf_Empty>(),
         interceptors: self.interceptors?.makeSetPositionInterceptors() ?? [],
         wrapping: self.setPosition(requestStream:context:)
       )
@@ -401,11 +401,11 @@ public protocol Donut_DonutWorldServerInterceptorFactoryProtocol {
 
   /// - Returns: Interceptors to use when handling 'getPosition'.
   ///   Defaults to calling `self.makeInterceptors()`.
-  func makeGetPositionInterceptors() -> [ServerInterceptor<Google_Protobuf_Empty, Donut_Xfrm>]
+  func makeGetPositionInterceptors() -> [ServerInterceptor<SwiftProtobuf.Google_Protobuf_Empty, Donut_Xfrm>]
 
   /// - Returns: Interceptors to use when handling 'setPosition'.
   ///   Defaults to calling `self.makeInterceptors()`.
-  func makeSetPositionInterceptors() -> [ServerInterceptor<Donut_Xfrm, Google_Protobuf_Empty>]
+  func makeSetPositionInterceptors() -> [ServerInterceptor<Donut_Xfrm, SwiftProtobuf.Google_Protobuf_Empty>]
 }
 
 public enum Donut_DonutWorldServerMetadata {
