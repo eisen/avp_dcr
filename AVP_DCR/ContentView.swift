@@ -22,9 +22,8 @@ struct ContentView: View {
     @State private var yaw = Angle2D(degrees: 0)
     @State private var pitch = Angle2D(degrees: 0.0)
     @State private var donut: Entity?
-    
-    private var group: EventLoopGroup?
-    private var channel: GRPCChannel?
+    @State private var group: EventLoopGroup?
+    @State private var channel: GRPCChannel?
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
@@ -33,6 +32,10 @@ struct ContentView: View {
         VStack {
             RealityView { content in
                 // Add the initial RealityKit content
+                Task {
+                    try! self.InitGRPC()
+                }
+                
                 if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                     donut = content.entities.first?.findEntity(named: "donut4")
@@ -110,7 +113,7 @@ struct ContentView: View {
         streamCall.requestStream.finish()
     }
     
-    mutating func InitGRPC() throws {
+    func InitGRPC() throws {
         // Setup an `EventLoopGroup` for the connection to run on.
         //
         // See: https://github.com/apple/swift-nio#eventloops-and-eventloopgroups
