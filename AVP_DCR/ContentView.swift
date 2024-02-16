@@ -66,8 +66,17 @@ struct ContentView: View {
                 }
             }
                 .onEnded({ _ in
-                    streamCall!.requestStream.finish()
-                    streamCall = nil
+                    var rqstStream = Donut_Xfrm()
+                    rqstStream.locked = false
+                    rqstStream.position.x = 0
+                    rqstStream.position.y = 0
+                    rqstStream.position.z = 0
+                    
+                    Task {
+                        try! await SendXfrmUpdate(xfrmStream: rqstStream)
+                        streamCall!.requestStream.finish()
+                        streamCall = nil
+                    }
                 })
             )
             .gesture( RotateGesture3D().targetedToEntity(donut ?? Entity()).onChanged { rotateEvent in
