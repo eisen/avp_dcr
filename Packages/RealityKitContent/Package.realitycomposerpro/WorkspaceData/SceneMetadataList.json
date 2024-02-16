@@ -25,7 +25,8 @@
       },
       [
         "1D572CEB-057A-41C3-B575-04C37501A3C0",
-        "Root"
+        "Root",
+        "donut4"
       ],
       {
         "isExpanded" : true,
@@ -33,8 +34,7 @@
       },
       [
         "1D572CEB-057A-41C3-B575-04C37501A3C0",
-        "Root",
-        "donut4"
+        "Root"
       ],
       {
         "isExpanded" : true,
@@ -75,7 +75,9 @@
     "objectMetadataList" : [
       [
         "D1722EDD-BA6C-47FF-993B-4ED6B15BC700",
-        "Donut"
+        "Donut",
+        "donut2",
+        "_materials"
       ],
       {
         "isExpanded" : true,
@@ -83,9 +85,7 @@
       },
       [
         "D1722EDD-BA6C-47FF-993B-4ED6B15BC700",
-        "Donut",
-        "donut2",
-        "_materials"
+        "Donut"
       ],
       {
         "isExpanded" : true,
@@ -116,16 +116,6 @@
     "objectMetadataList" : [
       [
         "D66134B1-3681-4A8E-AFE5-29F257229F3B",
-        "Root",
-        "donut2",
-        "Icing"
-      ],
-      {
-        "isExpanded" : true,
-        "isLocked" : false
-      },
-      [
-        "D66134B1-3681-4A8E-AFE5-29F257229F3B",
         "Root"
       ],
       {
@@ -136,6 +126,16 @@
         "D66134B1-3681-4A8E-AFE5-29F257229F3B",
         "Root",
         "donut4"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "D66134B1-3681-4A8E-AFE5-29F257229F3B",
+        "Root",
+        "donut2",
+        "Icing"
       ],
       {
         "isExpanded" : true,
