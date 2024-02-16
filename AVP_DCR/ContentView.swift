@@ -31,11 +31,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             RealityView { content in
-                // Add the initial RealityKit content
-                Task {
-                    try! self.InitGRPC()
-                }
-                
+                // Add the initial RealityKit content               
                 if let scene = try? await Entity(named: "Scene", in: realityKitContentBundle) {
                     content.add(scene)
                     donut = content.entities.first?.findEntity(named: "donut4")
@@ -99,6 +95,20 @@ struct ContentView: View {
                 }
             }
         }
+        .onAppear() {
+            self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+
+            // Configure the channel, we're not using TLS so the connection is `insecure`.
+            self.channel = try! GRPCChannelPool.with(
+              target: .host("20.102.106.161", port: self.port),
+              transportSecurity: .plaintext,
+              eventLoopGroup: group!
+            )
+        }
+        .onDisappear() {
+            try! group!.syncShutdownGracefully()
+            try! channel!.close().wait()
+        }
     }
     
     func SendXfrmUpdate(position: SIMD3<Float>) async throws
@@ -112,25 +122,6 @@ struct ContentView: View {
         try! await streamCall.requestStream.send(rqstStream)
         streamCall.requestStream.finish()
     }
-    
-    func InitGRPC() throws {
-        // Setup an `EventLoopGroup` for the connection to run on.
-        //
-        // See: https://github.com/apple/swift-nio#eventloops-and-eventloopgroups
-        self.group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        // Make sure the group is shutdown when we're done with it.
-        defer {
-            try! group!.syncShutdownGracefully()
-        }
-
-        // Configure the channel, we're not using TLS so the connection is `insecure`.
-        self.channel = try GRPCChannelPool.with(
-          target: .host("20.102.106.161", port: self.port),
-          transportSecurity: .plaintext,
-          eventLoopGroup: group!
-        )
-      }
 }
 
 #Preview(windowStyle: .volumetric) {
