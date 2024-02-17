@@ -28,6 +28,10 @@ extension Entity: Lockable {
             Entity._lock = newValue
         }
     }
+    
+    func SetLocked(value: Bool) {
+        self.isLocked = value
+    }
 }
 
 struct ContentView: View {
@@ -76,7 +80,6 @@ struct ContentView: View {
                         return
                     }
                     
-                    donut.isLocked = true
                     donut.position = dragEvent.convert(dragEvent.location3D, from: .local, to: parent)
                     
                     var rqstStream = Donut_Xfrm()
@@ -91,14 +94,6 @@ struct ContentView: View {
                     }
                 }
                 .onEnded({ _ in
-                    guard let donut
-                    else
-                    {
-                        return
-                    }
-                    
-                    donut.isLocked = false
-                    
                     var rqstStream = Donut_Xfrm()
                     rqstStream.locked = false
                     rqstStream.uuid = deviceID
@@ -173,7 +168,10 @@ struct ContentView: View {
                         for try await xfrm in rcvdStreamCall.responseStream {
                             if xfrm.uuid != self.deviceID {
                                 print("Response: \(xfrm)")
-                                await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
+                                if self.donut != nil {
+                                    await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
+                                    await self.donut!.SetLocked(value: xfrm.locked)
+                                }
                             }
                         }
                     }
