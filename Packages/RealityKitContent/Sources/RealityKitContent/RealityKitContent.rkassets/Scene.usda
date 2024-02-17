@@ -7,48 +7,30 @@
 
 reorder rootPrims = ["Root", "GridMaterial"]
 
-def Xform "Root"
+def Xform "Root" (
+    customData = {
+        float3 rotationEulerHint = (-0.78539807, 0, 0)
+    }
+)
 {
     reorder nameChildren = ["GridMaterial", "Sphere"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
+    quatf xformOp:orient = (0.92387956, -0.3826834, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
-    def "donut4" (
+    def "finaldonut" (
         active = true
-        customData = {
-            float3 rotationEulerHint = (-0.78539807, 0, 0)
-        }
-        prepend references = @donut4.usdz@
+        prepend references = @finaldonut.usdz@
     )
     {
-        quatf xformOp:orient = (0.92387956, -0.3826834, 0, 0)
-        float3 xformOp:scale = (3, 3, 3)
-        float3 xformOp:translate = (0, 0, 0)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
-
-        def RealityKitComponent "InputTarget"
+        over "Donut"
         {
-            uniform token info:id = "RealityKit.InputTarget"
-        }
-
-        def RealityKitComponent "Collider"
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.15483546, 0.1476644, 0.056847423)
-                token shapeType = "Box"
-
-                def RealityKitStruct "pose"
-                {
-                    float3 position = (-0.0017949827, 0.0010502748, 0.0038667098)
-                }
-            }
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (3, 3, 3)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
         }
     }
 }
