@@ -160,25 +160,28 @@ struct ContentView: View {
             
             self.client = Donut_DonutWorldAsyncClient(channel: self.channel!)
             
-            Task {
-                try await withThrowingTaskGroup(of: Void.self) { group in
-                    let rcvdStreamCall = client!.makeGetPositionCall(Google_Protobuf_Empty())
-                    
-                    group.addTask {
-                        for try await xfrm in rcvdStreamCall.responseStream {
-                            print("Response: \(xfrm)")
-                            if self.donut != nil {
-                                await self.donut!.SetLocked(value: xfrm.locked)
-                                if xfrm.locked {
-                                    await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { timer in
+                Task {
+                    try await withThrowingTaskGroup(of: Void.self) { group in
+                        let rcvdStreamCall = client!.makeGetPositionCall(Google_Protobuf_Empty())
+                        
+                        group.addTask {
+                            for try await xfrm in rcvdStreamCall.responseStream {
+                                if self.donut != nil {
+                                    await self.donut!.SetLocked(value: xfrm.locked)
+                                    if xfrm.locked {
+                                        await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
+                                    }
                                 }
                             }
                         }
+                        
+                        try await group.waitForAll()
                     }
-                    
-                    try await group.waitForAll()
                 }
             }
+            
+            
         }
         .onDisappear() {
             try! group!.syncShutdownGracefully()
