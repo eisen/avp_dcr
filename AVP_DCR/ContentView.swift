@@ -166,11 +166,11 @@ struct ContentView: View {
                     
                     group.addTask {
                         for try await xfrm in rcvdStreamCall.responseStream {
-                            if xfrm.uuid != self.deviceID {
-                                print("Response: \(xfrm)")
-                                if self.donut != nil {
+                            print("Response: \(xfrm)")
+                            if self.donut != nil {
+                                await self.donut!.SetLocked(value: xfrm.locked)
+                                if xfrm.locked {
                                     await self.donut!.setPosition(SIMD3<Float>(xfrm.position.x, xfrm.position.y, xfrm.position.z), relativeTo: donut!.parent)
-                                    await self.donut!.SetLocked(value: xfrm.locked)
                                 }
                             }
                         }
